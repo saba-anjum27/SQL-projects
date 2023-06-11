@@ -1,5 +1,5 @@
-##Triggers
-#INTRODUCTION:
+## Triggers
+# INTRODUCTION:
 A trigger in SQL is a special type of stored procedure that is automatically executed in response to a specific event or action in a database. A trigger can be defined to execute either before or after the event that triggers it.
 
 Triggers can be used for a variety of purposes in SQL, including:
