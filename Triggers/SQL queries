@@ -1,0 +1,55 @@
+create database mini_project_created_tables;
+use mini_project_created_tables;
+create table student_details
+(student_id int(3) not null,
+student_name varchar(30) not null,
+mail_id varchar(35) not null,
+mobile_number int(12) not null,primary key(student_id) 
+);
+create table student_details_backup
+(student_id int(3) not null,
+student_name varchar(30) not null,
+mail_id varchar(35) not null,
+mobile_number int(12), primary key(student_id),foreign key (student_id) references student_details(student_id));
+
+insert into student_details values(1,"jenny","anjenny@gmail.com",945215635);
+insert into student_details values(2,"tessa","attessa@gmail.com",956248521);
+insert into student_details values(3,"terence","teterence@gmail.com",958452156);
+insert into student_details values(4,"jasmine","jasmine@gmail.com",985214578);
+select * from student_details;
+
+select * from student_details_backup;
+
+
+delimiter //
+create trigger stud_det_backup
+before delete
+on student_details
+for each row
+begin
+insert into student_details_backup(student_id,student_name,mail_id,mobile_number)
+values (old.student_id,old.student_name,old.mail_id,old.mobile_number);
+end;
+// 
+delimiter ;
+
+set foreign_key_checks=0;
+select * from student_details;
+delete from student_details where student_id=4;
+select * from student_details_backup;
+select * from student_details;
+
+/* Here we create a trigger called "stud_det_backup" that is triggered before a record is deleted from the 
+"student_details" table.
+
+For each deleted row, the trigger will execute an "INSERT" statement that copies the data from the deleted row and inserts 
+it into the "student_details_backup" table. The "student_details_backup" table will store the student_id, student_name, 
+mail_id, and mobile_number columns for the deleted record.
+
+The "delimiter" command is used to change the delimiter used in the query from the default semicolon to "//" to allow for 
+the use of semicolons within the trigger definition. After the trigger definition is complete, the delimiter is set back
+ to the default semicolon using the "delimiter ;" command.
+
+Overall, this query sets up a trigger that creates a backup copy of any deleted records in the "student_details" 
+table, which can be useful for auditing purposes or for restoring data in the future.
+*/
